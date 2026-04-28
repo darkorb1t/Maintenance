@@ -1,0 +1,11 @@
+{
+  "customers": [
+    {
+      "keywords": ["ahmed siyam", "siyam", "siam", "ahmed"],
+      "name": "Ahmed Siyam",
+      "emails": ["Labbabul2024@gmail.com", "Labbabul2017@gmail.com"],
+      "status": "Payment Pending",
+      "accounts": 2
+    }
+  ]
+}
