@@ -5,112 +5,143 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orbit's Universe - Maintenance</title>
     <style>
-        :root {
-            --bg: #0b0214;
-            --glass: rgba(255, 255, 255, 0.05);
-            --accent: #bc8cf2;
-        }
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; overflow: hidden; }
-        
-        /* Intro Animation */
-        #intro {
-            position: fixed; width: 100%; height: 100%; background: #000;
-            display: flex; align-items: center; justify-content: center;
-            z-index: 100; transition: opacity 1.5s ease-in-out;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #080111; color: #fff; font-family: 'Poppins', sans-serif; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+
+        /* Welcome Page Design */
+        #welcome-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, #1a0b2e 0%, #080111 100%);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 1000; transition: opacity 1s ease, transform 1s ease;
         }
         .maintenance-box {
-            padding: 40px; border-radius: 25px;
-            background: var(--glass); backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,0.1);
-            animation: float 3s ease-in-out infinite;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(188, 140, 242, 0.3);
+            padding: 50px; border-radius: 30px; text-align: center;
+            box-shadow: 0 0 50px rgba(188, 140, 242, 0.1);
         }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .maintenance-box h1 { font-size: 28px; color: #bc8cf2; letter-spacing: 2px; animation: pulse 2s infinite; }
 
-        /* Main Content */
-        #main-content {
-            opacity: 0; transition: opacity 1s; padding: 20px;
-            display: flex; flex-direction: column; align-items: center;
-        }
+        /* Search Page Design */
+        #search-screen { opacity: 0; width: 100%; max-width: 500px; text-align: center; transition: opacity 1s ease; display: none; }
+        .search-container { position: relative; display: flex; align-items: center; gap: 10px; }
         .search-bar {
-            width: 80%; max-width: 500px; padding: 15px; border-radius: 30px;
-            border: none; background: var(--glass); color: white;
-            backdrop-filter: blur(10px); border: 1px solid var(--accent); margin-top: 50px;
+            flex-grow: 1; padding: 15px 25px; border-radius: 50px; border: 1px solid #bc8cf2;
+            background: rgba(255,255,255,0.05); color: #fff; outline: none; font-size: 16px;
         }
-        
-        /* User Card */
+        .search-btn {
+            background: #bc8cf2; border: none; width: 50px; height: 50px; border-radius: 50%;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px;
+        }
+
+        /* Result Card - Glassmorphism */
         #user-card {
-            margin-top: 30px; background: var(--glass); padding: 30px;
-            border-radius: 20px; text-align: center; display: none; width: 300px;
+            margin-top: 30px; background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(15px); border-radius: 25px; padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1); display: none;
+            animation: slideUp 0.5s ease;
         }
-        .profile-pic {
-            width: 80px; height: 80px; border-radius: 50%;
-            background: #eee; margin: 0 auto 15px;
-        }
-        .timer { font-size: 2rem; color: #ff4d4d; margin: 15px 0; }
-        .warning { font-size: 0.8rem; color: #aaa; }
+        .profile-pic { width: 100px; height: 100px; border-radius: 50%; background: #eee; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: #555; font-size: 40px; }
+        .timer { font-size: 32px; color: #ff4d4d; font-weight: bold; margin: 15px 0; }
+        .emails { font-size: 14px; color: #bbb; line-height: 1.8; }
+        .warning-text { color: #ffbc44; font-size: 13px; margin-top: 15px; font-style: italic; }
+
+        /* Animations */
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div id="intro">
+    <div id="welcome-screen">
         <div class="maintenance-box">
-            <h1>Welcome to Maintenance page</h1>
+            <h1>WELCOME TO<br>MAINTENANCE PAGE</h1>
+            <p style="margin-top: 15px; color: #888;">Initializing system protocols...</p>
         </div>
     </div>
 
-    <div id="main-content">
-        <input type="text" class="search-bar" placeholder="Search for user status..." id="searchInput">
-        
+    <div id="search-screen">
+        <h2 style="margin-bottom: 20px; color: #bc8cf2;">System Search</h2>
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-bar" placeholder="Enter username (e.g. Siyam)">
+            <button class="search-btn" onclick="handleSearch()">🔍</button>
+        </div>
+
         <div id="user-card">
-            <div class="profile-pic"></div>
-            <h2 id="userName">User Name</h2>
-            <p><strong>2 Accounts:</strong><br>Labbabul2024@gmail.com<br>Labbabul2017@gmail.com</p>
-            <p style="color: #ffbd44;">Status: PAYMENT PENDING</p>
-            <div class="timer" id="timer">00:00:00</div>
-            <p class="warning">Warning: If payment is not made within the time frame, the subscription will be cancelled.</p>
+            <div class="profile-pic">👤</div>
+            <h2 id="uName">Ahmed Siyam</h2>
+            <div class="emails">
+                2 accounts identified:<br>
+                <b>Labbabul2024@gmail.com</b><br>
+                <b>Labbabul2017@gmail.com</b>
+            </div>
+            <p style="color: #ff4d4d; margin-top: 15px; font-weight: bold;">Status: PAYMENT STILL PENDING</p>
+            <div class="timer" id="countdown">--:--:--</div>
+            <p class="warning-text">If payment is not made within the time frame, the subscription will be cancelled permanently.</p>
         </div>
     </div>
 
     <script>
-        // Intro fade out
+        // Intro handling
         setTimeout(() => {
-            document.getElementById('intro').style.opacity = '0';
-            document.getElementById('main-content').style.opacity = '1';
-            setTimeout(() => document.getElementById('intro').style.display = 'none', 1500);
+            const welcome = document.getElementById('welcome-screen');
+            welcome.style.opacity = '0';
+            welcome.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                welcome.style.display = 'none';
+                const search = document.getElementById('search-screen');
+                search.style.display = 'block';
+                setTimeout(() => search.style.opacity = '1', 50);
+            }, 1000);
         }, 3000);
 
-        // Search Logic
-        const keywords = ["ahmed siyam", "siyam", "siam", "ahmed"];
-        document.getElementById('searchInput').addEventListener('keyup', (e) => {
-            if (keywords.includes(e.target.value.toLowerCase())) {
-                document.getElementById('user-card').style.display = 'block';
-                startTimer();
-            }
+        // Search logic with "Enter" key support
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSearch();
         });
 
-        // Persistent Timer Logic
+        function handleSearch() {
+            const val = document.getElementById('searchInput').value.toLowerCase();
+            const allowed = ["ahmed siyam", "siyam", "siam", "ahmed"];
+            
+            if (allowed.includes(val)) {
+                document.getElementById('user-card').style.display = 'block';
+                startTimer();
+            } else {
+                alert("User not found in maintenance database!");
+            }
+        }
+
+        // Persistent Timer
         function startTimer() {
             let expiry = localStorage.getItem('expiry_time');
             if (!expiry) {
+                // Random time between 5 and 8 hours
                 let hours = Math.floor(Math.random() * (8 - 5 + 1) + 5);
                 expiry = Date.now() + (hours * 60 * 60 * 1000);
                 localStorage.setItem('expiry_time', expiry);
             }
 
-            setInterval(() => {
+            const updateTimer = () => {
                 let now = Date.now();
                 let diff = expiry - now;
+                
                 if (diff <= 0) {
-                    document.getElementById('timer').innerHTML = "EXPIRED";
+                    document.getElementById('countdown').innerHTML = "CANCELLED";
                     return;
                 }
-                let h = Math.floor(diff / (1000 * 60 * 60));
-                let m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                let s = Math.floor((diff % (1000 * 60)) / 1000);
-                document.getElementById('timer').innerHTML = `${h}h ${m}m ${s}s`;
-            }, 1000);
+                
+                let h = Math.floor(diff / 3600000);
+                let m = Math.floor((diff % 3600000) / 60000);
+                let s = Math.floor((diff % 60000) / 1000);
+                document.getElementById('countdown').innerHTML = `${h}h ${m}m ${s}s`;
+            };
+            
+            updateTimer();
+            setInterval(updateTimer, 1000);
         }
     </script>
 </body>
 </html>
-  
