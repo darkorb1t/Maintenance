@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbit's Universe - Maintenance</title>
+    <style>
+        :root {
+            --bg: #0b0214;
+            --glass: rgba(255, 255, 255, 0.05);
+            --accent: #bc8cf2;
+        }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; overflow: hidden; }
+        
+        /* Intro Animation */
+        #intro {
+            position: fixed; width: 100%; height: 100%; background: #000;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100; transition: opacity 1.5s ease-in-out;
+        }
+        .maintenance-box {
+            padding: 40px; border-radius: 25px;
+            background: var(--glass); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* Main Content */
+        #main-content {
+            opacity: 0; transition: opacity 1s; padding: 20px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .search-bar {
+            width: 80%; max-width: 500px; padding: 15px; border-radius: 30px;
+            border: none; background: var(--glass); color: white;
+            backdrop-filter: blur(10px); border: 1px solid var(--accent); margin-top: 50px;
+        }
+        
+        /* User Card */
+        #user-card {
+            margin-top: 30px; background: var(--glass); padding: 30px;
+            border-radius: 20px; text-align: center; display: none; width: 300px;
+        }
+        .profile-pic {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: #eee; margin: 0 auto 15px;
+        }
+        .timer { font-size: 2rem; color: #ff4d4d; margin: 15px 0; }
+        .warning { font-size: 0.8rem; color: #aaa; }
+    </style>
+</head>
+<body>
+
+    <div id="intro">
+        <div class="maintenance-box">
+            <h1>Welcome to Maintenance page</h1>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <input type="text" class="search-bar" placeholder="Search for user status..." id="searchInput">
+        
+        <div id="user-card">
+            <div class="profile-pic"></div>
+            <h2 id="userName">User Name</h2>
+            <p><strong>2 Accounts:</strong><br>Labbabul2024@gmail.com<br>Labbabul2017@gmail.com</p>
+            <p style="color: #ffbd44;">Status: PAYMENT PENDING</p>
+            <div class="timer" id="timer">00:00:00</div>
+            <p class="warning">Warning: If payment is not made within the time frame, the subscription will be cancelled.</p>
+        </div>
+    </div>
+
+    <script>
+        // Intro fade out
+        setTimeout(() => {
+            document.getElementById('intro').style.opacity = '0';
+            document.getElementById('main-content').style.opacity = '1';
+            setTimeout(() => document.getElementById('intro').style.display = 'none', 1500);
+        }, 3000);
+
+        // Search Logic
+        const keywords = ["ahmed siyam", "siyam", "siam", "ahmed"];
+        document.getElementById('searchInput').addEventListener('keyup', (e) => {
+            if (keywords.includes(e.target.value.toLowerCase())) {
+                document.getElementById('user-card').style.display = 'block';
+                startTimer();
+            }
+        });
+
+        // Persistent Timer Logic
+        function startTimer() {
+            let expiry = localStorage.getItem('expiry_time');
+            if (!expiry) {
+                let hours = Math.floor(Math.random() * (8 - 5 + 1) + 5);
+                expiry = Date.now() + (hours * 60 * 60 * 1000);
+                localStorage.setItem('expiry_time', expiry);
+            }
+
+            setInterval(() => {
+                let now = Date.now();
+                let diff = expiry - now;
+                if (diff <= 0) {
+                    document.getElementById('timer').innerHTML = "EXPIRED";
+                    return;
+                }
+                let h = Math.floor(diff / (1000 * 60 * 60));
+                let m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                let s = Math.floor((diff % (1000 * 60)) / 1000);
+                document.getElementById('timer').innerHTML = `${h}h ${m}m ${s}s`;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
+  
